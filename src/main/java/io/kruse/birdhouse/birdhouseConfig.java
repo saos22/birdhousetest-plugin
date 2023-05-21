@@ -374,7 +374,7 @@ public interface birdhouseConfig extends Config
     @ConfigItem(
             position = 0,
             keyName = "prayerBat",
-            name = "Prayer Helper",
+            name = "Bat Prayer Helper",
             description = "Indicate the correct prayer when this NPC attacks",
             section = "BatsSection"
     )

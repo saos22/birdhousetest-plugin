@@ -353,7 +353,6 @@ public class birdhousePlugin extends Plugin
 		{
 			return;
 		}
-
 		if (birdhouseNPCType == birdhouseNPC.Type.ZUK)
 		{
 			finalPhase = false;

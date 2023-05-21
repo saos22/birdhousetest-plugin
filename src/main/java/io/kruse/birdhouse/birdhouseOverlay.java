@@ -8,13 +8,8 @@ import javax.inject.Inject;
 
 import io.kruse.birdhouse.displaymodes.birdhousePrayerDisplayMode;
 import io.kruse.birdhouse.displaymodes.birdhouseSafespotDisplayMode;
-import javafx.scene.shape.HLineTo;
-import javafx.scene.shape.Line;
-import net.runelite.api.Client;
-import net.runelite.api.Perspective;
+import net.runelite.api.*;
 import net.runelite.api.Point;
-import net.runelite.api.Prayer;
-import net.runelite.api.NPC;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.widgets.Widget;
@@ -24,9 +19,6 @@ import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayPriority;
 import net.runelite.client.ui.overlay.OverlayUtil;
-
-import static net.runelite.api.widgets.WidgetID.PRAYER_GROUP_ID;
-import static net.runelite.api.widgets.WidgetInfo.RESIZABLE_VIEWPORT_PRAYER_ICON;
 
 public class birdhouseOverlay extends Overlay
 {
@@ -51,9 +43,9 @@ public class birdhouseOverlay extends Overlay
     @Override
     public Dimension render(Graphics2D graphics)
     {
-        final Widget meleePrayerWidget = client.getWidget(WidgetInfo.PRAYER_PROTECT_FROM_MELEE);
-        final Widget rangePrayerWidget = client.getWidget(WidgetInfo.PRAYER_PROTECT_FROM_MISSILES);
-        final Widget magicPrayerWidget = client.getWidget(WidgetInfo.PRAYER_PROTECT_FROM_MAGIC);
+        final Widget meleePrayerWidget = client.getWidget(541,22);
+        final Widget rangePrayerWidget = client.getWidget(541,21);
+        final Widget magicPrayerWidget = client.getWidget(541,23);
 
         if (plugin.isIndicateObstacles())
         {
@@ -283,17 +275,17 @@ public class birdhouseOverlay extends Overlay
                     }
                 }
 
-                if (!duplicate)
-                {
-                    final Line lineTEST = new Line(baseEdge[0][0],baseEdge[0][1],baseEdge[1][0],baseEdge[1][1]);
-
-                    OverlayUtil.renderPolygon(graphics, (Shape) lineTEST, colorEdge1);
-
-                    if (colorEdge2 != null)
-                    {
-                        OverlayUtil.renderPolygon(graphics, (Shape) lineTEST, colorEdge2);
-                    }
-                }
+//                if (!duplicate)
+//                {
+//                    final Line lineTEST = new Line(baseEdge[0][0],baseEdge[0][1],baseEdge[1][0],baseEdge[1][1]);
+//
+//                    OverlayUtil.renderPolygon(graphics, (Shape) lineTEST, colorEdge1);
+//
+//                    if (colorEdge2 != null)
+//                    {
+//                        OverlayUtil.renderPolygon(graphics, (Shape) lineTEST, colorEdge2);
+//                    }
+//                }
             }
 
         }
@@ -402,30 +394,29 @@ public class birdhouseOverlay extends Overlay
             {
                 //TODO: Config values for these colors
                 final Color color = (tick == 1 && currentAttack == bestAttack) ? Color.RED : Color.ORANGE;
-                Widget prayerWidgetBaby = null;
-                switch(currentAttack.getPrayer()){
+
+                Widget prayerWidgetBaby = client.getWidget(WidgetInfo.RESIZABLE_VIEWPORT_OPTIONS_ICON);;
+                switch(plugin.getClosestAttack().getPrayer()){
                     case PROTECT_FROM_MAGIC:
-                        prayerWidgetBaby = client.getWidget(WidgetInfo.PRAYER_PROTECT_FROM_MAGIC);
+                        prayerWidgetBaby = client.getWidget(541,21);
                         break;
                     case PROTECT_FROM_MELEE:
-                        prayerWidgetBaby = client.getWidget(WidgetInfo.PRAYER_PROTECT_FROM_MELEE);
+                        prayerWidgetBaby = client.getWidget(541,23);
                         break;
                     case PROTECT_FROM_MISSILES:
-                        prayerWidgetBaby = client.getWidget(WidgetInfo.PRAYER_PROTECT_FROM_MISSILES);
+                        prayerWidgetBaby = client.getWidget(541,22);
                         break;
                     default:
-                        prayerWidgetBaby = client.getWidget(WidgetInfo.PRAYER_PROTECT_FROM_MAGIC);
+                        prayerWidgetBaby = client.getWidget(541,21);
                         break;
                 }
                 final Widget prayerWidget = prayerWidgetBaby;
-
                 int baseX = (int) prayerWidget.getBounds().getX();
-                baseX += prayerWidget.getBounds().getWidth() / 2;
+                baseX += prayerWidget.getBounds().getWidth() / 2 ;
                 baseX -= BOX_WIDTH / 2;
 
                 int baseY = (int) prayerWidget.getBounds().getY() - tick * TICK_PIXEL_SIZE - BOX_HEIGHT;
                 baseY += TICK_PIXEL_SIZE - ((plugin.getLastTick() + 600 - System.currentTimeMillis()) / 600.0 * TICK_PIXEL_SIZE);
-
                 final Rectangle boxRectangle = new Rectangle(BOX_WIDTH, BOX_HEIGHT);
                 boxRectangle.translate(baseX, baseY);
 
@@ -462,19 +453,19 @@ public class birdhouseOverlay extends Overlay
 
             if (plugin.getClosestAttack() != prayerForAttack || plugin.isIndicateWhenPrayingCorrectly())
             {
-                Widget prayerWidgetBaby = null;
+                Widget prayerWidgetBaby = client.getWidget(WidgetInfo.RESIZABLE_VIEWPORT_OPTIONS_ICON);;
                 switch(plugin.getClosestAttack().getPrayer()){
                     case PROTECT_FROM_MAGIC:
-                        prayerWidgetBaby = client.getWidget(WidgetInfo.PRAYER_PROTECT_FROM_MAGIC);
+                        prayerWidgetBaby = client.getWidget(541,21);
                         break;
                     case PROTECT_FROM_MELEE:
-                        prayerWidgetBaby = client.getWidget(WidgetInfo.PRAYER_PROTECT_FROM_MELEE);
+                        prayerWidgetBaby = client.getWidget(541,23);
                         break;
                     case PROTECT_FROM_MISSILES:
-                        prayerWidgetBaby = client.getWidget(WidgetInfo.PRAYER_PROTECT_FROM_MISSILES);
+                        prayerWidgetBaby = client.getWidget(541,22);
                         break;
                     default:
-                        prayerWidgetBaby = client.getWidget(WidgetInfo.PRAYER_PROTECT_FROM_MAGIC);
+                        prayerWidgetBaby = client.getWidget(541,21);
                         break;
                 }
                 final Widget prayerWidget = prayerWidgetBaby;
